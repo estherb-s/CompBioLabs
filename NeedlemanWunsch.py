@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-# can use a biopython package
 
 # Defines the order of the amino acids used for the score matrix
 alphabet = "ARNDCQEGHILKMFPSTWYV"
@@ -74,10 +73,45 @@ def needlemanWunsch(X,Y):
     alignX, alignY = '', ''
     # Start from the bottom right cell
     i,j = len(X), len(Y)
-    
+    while i>0 or j>0:
+        Xai = alphabet.index(X[i - 1])
+        Yai = alphabet.index(Y[j - 1])
+        match_Score = blosum50[Xai, Yai]
+        print(i, j, "Match score:", match_Score)
+        # Align 2 residues         
+        if i > 0 and j >0 and score_matrix[i, j] == score_matrix[i-1, j-1] + match_Score:
+            alignX += X[i-1]
+            alignY += Y[j-1]
+            i -= 1
+            j -= 1
+        # Align X with a gap             
+        elif i > 0 and score_matrix[i, j] == score_matrix[i-1, j] + gap_penalty:
+            alignX += X[i-1]
+            alignY += '-'
+            i -= 1
+        # Align Y with a gap             
+        elif j > 0:
+            alignX += '-'
+            alignY += Y[j-1]
+            j -= 1
+            
+    while i >0:
+        alignX += X[i-1]
+        alignY += '-'
+        i -= 1
+    while j > 0:
+        alignX += '-'
+        alignY += Y[j-1]
+        j-=1
+        
+    alignX = alignX[::-1]
+    alignY = alignY[::-1]
     return(alignX, alignY)
 
 alignX, alignY = needlemanWunsch(X, Y)
 print("\n" + alignX + "\n" + alignY)
 
-
+A = "SALPQPTTPVSSFTSGSMLGRTDTALTNTYSAL" 
+B = "PSPTMEAVTSVEASTASHPHSTSSYFATTYYHLY"
+alignA, alignB = needlemanWunsch(A, B)
+print("\n" + alignA + "\n" + alignB)
