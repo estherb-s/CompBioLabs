@@ -90,8 +90,8 @@ def smithWaterman(X,Y):
             if score_matrix[fi, fj] == 0:
                 best_score == 0 
             
-            if score_matrix[fi, fj] == 0:
-                best_score == 0 
+            # if score_matrix[fi, fj] == 0:
+            #     best_score == 0 
             
             if best_score < 0:
                 best_score = 0
