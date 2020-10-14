@@ -34,13 +34,33 @@ sequence = open('lambda.txt').read().replace('\n', '')
 length = len(sequence) + 1 
 
 # Log-probabilities
-
+v_matrix = np.zeros((length, 3)) 
 # Pointers
+p_matrix = np.zeros((length, 3), dtype = "int8") 
+
+v_matrix.fill(neginf)
+p_matrix.fill(-1)
+v_matrix[0, 0] = 0.0
+
+for i in range(1, length):
+	nucleotide = nucleotide_alphabet.index(sequence[i - 1])
+	for j in range(3):
+		for k in range(3):
+			vij = emiss_log_probs[j, nucleotide] + v_matrix[i - 1, k] + trans_log_probs[k, j]			
+			if vij > v_matrix[i, j]:
+				v_matrix[i, j] = vij
+				p_matrix[i, j] = k
+
+next_map_k = np.argmax(v_matrix[length - 1])
+map_states = ""
+for i in reversed(range(1, length)):
+	map_states = state_alphabet[next_map_k] + map_states
+	next_map_k = p_matrix[i, next_map_k]
 
 # print the map states:
 # First seq = true simulated path
 # Second seq = estimated path using Viterbi algorithm (using above code)
-
+print(map_states)
 
 
 

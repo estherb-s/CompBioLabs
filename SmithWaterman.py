@@ -129,7 +129,7 @@ def smithWaterman(X,Y):
 alignX, alignY = smithWaterman(X, Y)
 print("\n" + alignX + "\n" + alignY)
 
-A = "MQNSHSGVNQLGGVFVNGRPLPDSTRQKIVELAHSGARPCDISRILQVSNGCVSKILGRY" 
+A = "MQNSHSGVNQLGGVFVNGRPLPDSTRQKIVELAHSGARPCDISRILQVSNGCVSKILGRY"
 B = "TDDECHSGVNQLGGVFVGGRPLPDSTRQKIVELAHSGARPCDISRI"
 alignA, alignB = smithWaterman(A, B)
 print("\n" + alignA + "\n" + alignB)
